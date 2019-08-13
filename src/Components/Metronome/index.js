@@ -1,27 +1,21 @@
 import React, { Component } from 'react'
 import getOscilator from './oscilator'
 import Controls from './Controls'
+import './metronome.scss'
 
 class Metronome extends Component {
   state = {}
 
-  componentDidMount(){
-    this.setState(this.props, this.beat)
-  }
-
-  onMetronomeChange = ev => {
-    const { name, value } = ev.target
-    this.setState({ ...this.state, [name]: +value })
-    this.metronomeChanging = false
+  componentDidMount() {
+    this.beat()
   }
 
   beat = () => {
-    const { run } = this.props
-    const { bpm , notes } = this.state
+    const { run, bpm , measurement } = this.props
     let { currentBeat = 0 } = this.state
     const timer = 60 / bpm * 1000
     if(run){
-      currentBeat = currentBeat === notes ? 1 : currentBeat + 1
+      currentBeat = currentBeat >= measurement ? 1 : currentBeat + 1
       this.setState({ currentBeat })
       const oscilator = getOscilator(currentBeat === 1 ? 660 : 440)
       oscilator.start()
@@ -33,17 +27,18 @@ class Metronome extends Component {
   }
 
   render() {
-    const { notes, measurement, visual } = this.state
+    const { notes, measurement, visual } = this.props
     const { currentBeat = 0 } = this.state
     return (
       <div>
-        {visual && <div>
+        {visual && <div className="metronome">
           <div>Metronome {notes}/{measurement}</div>
           <h3>{currentBeat}</h3>
-          <Controls {...this.state}
-            start={this.start}
-            stop={this.stop} 
-            onChange={this.onMetronomeChange} />
+          <div className="beat-map">
+            {new Array(measurement).fill(null).map((_, idx) => (
+              <div key={idx} className={`circle ${idx + 1 === currentBeat && 'current'}`}>{idx + 1}</div>
+            ))}
+          </div>
         </div>}
       </div>
     )

@@ -1,0 +1,19 @@
+.metronome {
+  .beat-map {
+    margin-bottom: 20px;
+    .circle {
+      display: inline-block;
+      font-size: 15px;
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+      border: 1px solid black;
+      border-radius: 50%;
+
+      &.current {
+        background-color: black;
+        color: white;
+      }
+    }
+  }
+}

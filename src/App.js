@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import Metronome from 'Components/Metronome'
+import Metronome, { Controls } from 'Components/Metronome'
 import './App.css';
 
 class App extends Component {
   state = {
-    run: false
+    run: false,
+    bpm: 120,
+    notes: 4,
+    measurement: 4,
+    visual: true
   }
 
   toggleMetronome = ev => {
@@ -12,16 +16,19 @@ class App extends Component {
     this.setState({ run: !run })
   }
 
+  onMetronomeChange = ev => {
+    const { name, value } = ev.target
+    this.setState({ ...this.state, [name]: +value })
+    this.metronomeChanging = false
+  }
+
   render() {
-    const { run } = this.state
     return (
       <div className="App">
-        <Metronome 
-          visual={false}
-          bpm={120}
-          notes={4}
-          maeasurement={4}
-          run={run} />
+        <Metronome {...this.state} />
+
+        <Controls {...this.state}
+          onChange={this.onMetronomeChange} />
 
         <button onClick={this.toggleMetronome}>Start / Stop</button>
       </div>

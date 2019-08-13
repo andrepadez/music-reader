@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 class Controls extends Component {
   render() {
     const { notes, measurement, bpm, onChange } = this.props
-    
     return (
       <div>
         <div>
@@ -15,7 +14,7 @@ class Controls extends Component {
           </select>
           /
           <select name="measurement" value={measurement} onChange={onChange}>
-            {[1, 2, 4, 8].map(n => (
+            {[1, 2, 4, 8, 16].map(n => (
               <option key={n} value={n}>{n}</option>
             ))}
           </select>
@@ -29,7 +28,7 @@ class Controls extends Component {
             max="200" 
             defaultValue={bpm} 
             onKeyPress={ev => ev.preventDefault()}
-            onBlur={onChange} />
+            onChange={onChange} />
         </div>
       </div>
     )
