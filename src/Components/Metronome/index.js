@@ -48,4 +48,4 @@ class Metronome extends Component {
 
 export default Metronome
 
-export { Controls }
+export { Controls, getOscilator }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Metronome, { Controls } from 'Components/Metronome'
+import Metronome, { Controls, getOscilator } from 'Components/Metronome'
 import './App.css';
 
 class App extends Component {
@@ -12,6 +12,12 @@ class App extends Component {
   }
 
   toggleMetronome = ev => {
+    //this is a hack for initializing AudioContext
+    if(!this.initialized){
+      this.initialized = true
+      getOscilator(100)
+    }
+    
     const { run } = this.state
     this.setState({ run: !run })
   }
@@ -19,7 +25,6 @@ class App extends Component {
   onMetronomeChange = ev => {
     const { name, value } = ev.target
     this.setState({ ...this.state, [name]: +value })
-    this.metronomeChanging = false
   }
 
   render() {
