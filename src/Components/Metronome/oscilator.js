@@ -1,7 +1,9 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext
 
-let context = new AudioContext()
+let context
+
 const getOscilator = (frequency) => {
+  context = context || new AudioContext()
   const o = context.createOscillator()
   o.type = 'sine'
   o.frequency.value = frequency
